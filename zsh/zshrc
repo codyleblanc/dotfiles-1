@@ -1,14 +1,26 @@
-source ~/.zsh/checks.zsh
-source ~/.zsh/colors.zsh
-source ~/.zsh/setopt.zsh
-source ~/.zsh/exports.zsh
-source ~/.zsh/prompt.zsh
-source ~/.zsh/completion.zsh
-source ~/.zsh/aliases.zsh
-source ~/.zsh/bindkeys.zsh
-source ~/.zsh/functions.zsh
-source ~/.zsh/history.zsh
-source ~/.zsh/zsh_hooks.zsh
-#source ~/.zsh/hitch.zsh
-# source /opt/github/env.sh
-source  ${HOME}/.dotfiles/z/z.sh
+#! /bin/sh
+
+ZDOTDIR=~/.dotfiles/zsh
+
+source ${ZDOTDIR}/checks.zsh
+source ${ZDOTDIR}/colors.zsh
+source ${ZDOTDIR}/setopt.zsh
+source ${ZDOTDIR}/exports.zsh
+source ${ZDOTDIR}/prompt.zsh
+source ${ZDOTDIR}/completion.zsh
+source ${ZDOTDIR}/aliases.zsh
+source ${ZDOTDIR}/bindkeys.zsh
+source ${ZDOTDIR}/functions.zsh
+source ${ZDOTDIR}/history.zsh
+source ${ZDOTDIR}/zsh_hooks.zsh
+
+# External Modules
+
+fpath=(
+    $ZDOTDIR/completions/src
+    $fpath
+)
+
+source ${ZDOTDIR}/modules/z/z.sh
+source ${ZDOTDIR}/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ${ZDOTDIR}/modules/zsh-history-substring-search/zsh-history-substring-search.zsh

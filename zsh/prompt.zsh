@@ -12,6 +12,10 @@ function box_name {
     [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
 }
 
+function vi_mode {
+  echo "${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
+}
+
 # http://blog.joshdick.net/2012/12/30/my_git_prompt_for_zsh.html
 # copied from https://gist.github.com/4415470
 # Adapted from code found at <https://gist.github.com/1712320>.
@@ -108,4 +112,4 @@ $(prompt_char) '
 
 export SPROMPT="Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color [(y)es (n)o (a)bort (e)dit]? "
 
-RPROMPT='${PR_GREEN}$(virtualenv_info)%{$reset_color%} ${PR_RED}${ruby_version}%{$reset_color%}'
+RPROMPT='$(vi_mode)${PR_GREEN}$(virtualenv_info)%{$reset_color%} ${PR_RED}${ruby_version}%{$reset_color%}'

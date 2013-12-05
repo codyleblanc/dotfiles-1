@@ -1,13 +1,36 @@
 [user]
-    name = Mark Nichols
-    email = mark@zanshin.net
+    name = Cody LeBlanc
+    email = cody@coderawr.com
 
-[github]
-    user = zanshin
+[core]
+	excludesfile = ~/.git/global_ignore
+    editor = /usr/bin/vim
+    filemode = false
+
+[init]
+    templatedir = ~/.git/template
+
+[branch]
+    autosetuprebase = always
+
+[push]
+    default = simple
+
+[diff]
+    tool = vimdiff
+
+[difftool]
+    prompt = false
+
+[merge]
+    tool = vimdiff
+    conflictstyle = diff3
+
+[mergetool]
+    prompt = false
 
 [color]
     ui = auto
-    interactive = auto
 
 [color "branch"]
     current = yellow reverse
@@ -21,35 +44,28 @@
     new = green bold
 
 [color "status"]
-    added = green
-    changed = magenta
-    untracked = bold yellow
-
-[core]
-    editor = vim 
-    autocrlf = input
-    safecrlf = warn
-    excludesfile = /Users/mark/.gitignore_global
-    quotepath = false
-
-[diff]
-    tool = vimdiff
-
-[merge]
-    # Include summaries of merged commits in newly created merge commit
-    # messages
-    log = true
-    tool = vimdiff
+    added = yellow
+    changed = green
+    untracked = cyan
 
 [alias]
-    yolo = 'git commit -am "DEAL WITH IT" && git push -f origin master'
-    hist = "log --graph --pretty=format:'%Cred%h%Creset %d %s %Cgreen(%cr)%Creset %Cblue[%an]%Creset' --abbrev-commit --date=relative"
-    ahead = "log @{u}...HEAD --graph --decorate --left-right --boundary --pretty=format:'%Cred%h%Creset %d %s %Cgreen(%cr)%Creset %Cblue[%an]%Creset' --abbrev-commit --date=relative"
-    today = "log --stat --since='1 Day Ago' --graph --pretty=oneline --abbrev-commit --date=relative"
     # Show verbose output about tags, branches, or remotes
     tags = tag -l
     branches = branch -a
     remotes = remote -v
 
-[push]
-	default = simple
+    st = status -s
+    co = checkout
+    ls = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
+    la = "!git config -l | grep alias | cut -c 7-"
+
+    hist = "log --graph --pretty=format:'%Cred%h%Creset %d %s %Cgreen(%cr)%Creset %Cblue[%an]%Creset' --abbrev-commit --date=relative"
+    ahead = "log @{u}...HEAD --graph --decorate --left-right --boundary --pretty=format:'%Cred%h%Creset %d %s %Cgreen(%cr)%Creset %Cblue[%an]%Creset' --abbrev-commit --date=relative"
+    today = "log --stat --since='1 Day Ago' --graph --pretty=oneline --abbrev-commit --date=relative"
+
+[difftool "sourcetree"]
+	cmd = mvim -d \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = "v "
+	trustExitCode = true

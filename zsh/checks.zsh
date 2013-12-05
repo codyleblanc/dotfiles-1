@@ -11,12 +11,8 @@ if [[ -x `which brew` ]]; then
     HAS_BREW=1
 fi
 
-if [[ -x `which apt-get` ]]; then
-    HAS_APT=1
-fi
-
-if [[ -x `which yum` ]]; then
-    HAS_YUM=1
+if [[ -x `which pacman` ]]; then
+    HAS_PACMAN=1
 fi
 
 if [[ -x `which virtualenv` ]]; then

@@ -18,3 +18,11 @@ function preexec {
 function postexec {
   set_running_app
 }
+
+# Should this go here?
+function zle-line-init zle-keymap-select {
+    zle reset-prompt
+}
+
+zle -N zle-line-init
+zle -N zle-keymap-select

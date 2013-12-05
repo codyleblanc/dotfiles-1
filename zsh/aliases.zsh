@@ -2,18 +2,6 @@
 # use nocorrect alias to prevent auto correct from "fixing" these
 # -------------------------------------------------------------------
 #alias foobar='nocorrect foobar'
-alias g8='nocorrect g8'
-alias cookbook='nocorrect cookbook'
-
-# -------------------------------------------------------------------
-# Ruby stuff
-# -------------------------------------------------------------------
-alias ri='ri -Tf ansi' # Search Ruby documentation
-alias rake="noglob rake" # necessary to make rake work inside of zsh
-#alias be='bundle exec'
-#alias bx='bundle exec'
-#alias gentags='ctags .'
-
 # -------------------------------------------------------------------
 # directory movement
 # -------------------------------------------------------------------
@@ -73,71 +61,17 @@ if [[ $IS_MAC -eq 1 ]]; then
     alias defhist='history 1 | grep "defaults"'
 fi
 
-# The Venerable Mutt
-alias mutt 'cd ~/Desktop && mutt'
-
 # -------------------------------------------------------------------
 # random shortcuts
 # -------------------------------------------------------------------
-#alias s='subl -n .'
-alias p='cd ~/Projects'
+alias dev='cd ~/Development'
 alias v='vim'
 alias bu='brew update; brew upgrade; brew cleanup; brew doctor'
-
-# -------------------------------------------------------------------
-# remote machines
-# -------------------------------------------------------------------
-alias 'vpn=sudo openconnect --config ~/.openconnect https://vpn.net.k-state.edu'
-alias 'palantir=ssh mhn@palantir.ome.ksu.edu -p 11122'
-alias 'pvnc=open vnc://palantir.ome.ksu.edu'
-alias 'ksunix=ssh mhn@unix.ksu.edu'
-alias 'veld=ssh mhn@veld.ome.ksu.edu'
-alias 'dev=ssh mhn@ome-dev-as1.ome.campus'
-alias 'tools=ssh mhn@tools.ome.ksu.edu'
-alias 'wf=ssh markn@markn.webfactional.com'
-alias 'chef=ssh mark@129.130.49.121'
 
 # -------------------------------------------------------------------
 # Mutt stuff
 # -------------------------------------------------------------------
 alias mutt 'cd ~/Desktop && mutt'
-
-# -------------------------------------------------------------------
-# database
-# -------------------------------------------------------------------
-if [[ $IS_MAC -eq 1 ]]; then
-    alias 'psqlstart=pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
-    alias 'psqlstop=pg_ctl stop'
-    #alias psql=/usr/local/Cellar/postgres/9.2.2/bin/psql
-fi
-
-# -------------------------------------------------------------------
-# ome devvm start, stop, ssh, and mount
-# -------------------------------------------------------------------
-alias 'startvm=VBoxHeadless --startvm devvm'
-alias 'stopvm=VBoxManage controlvm devvm poweroff'
-alias 'devvm=ssh -p 10022 ome@localhost'
-alias 'devmount=mount_smbfs //ome:ch1cag0@localhost:10139/ome /Users/$USERNAME/Projects/devvm/'
-
-# -------------------------------------------------------------------
-# Vagrant
-# -------------------------------------------------------------------
-alias 'vg=vagrant'
-alias 'vs=vagrant ssh'
-alias 'vu=vagrant up'
-alias 'vp=vagrant provision'
-alias 'vh=vagrant halt'
-alias 'vr=vagrant reload'
-
-
-# -------------------------------------------------------------------
-# Mercurial (hg)
-# -------------------------------------------------------------------
-alias 'h=hg status'
-alias 'hc=hg commit'
-alias 'push=hg push'
-alias 'pull=hg pull'
-alias 'clone=hg clone'
 
 # -------------------------------------------------------------------
 # Git
@@ -175,64 +109,14 @@ alias gsh="git shortlog | grep -E '^[ ]+\w+' | wc -l"
 alias gu="git shortlog | grep -E '^[^ ]'"
 
 # -------------------------------------------------------------------
-# Python virtualenv
-# -------------------------------------------------------------------
-alias mkenv='mkvirtualenv'
-alias on="workon"
-alias off="deactivate"
-
-# -------------------------------------------------------------------
 # Oddball stuff
 # -------------------------------------------------------------------
-alias 'sloc=/usr/local/sloccount/bin/sloccount'
-alias 'adventure=emacs -batch -l dunnet' # play adventure in the console
-alias 'ttop=top -ocpu -R -F -s 2 -n30' # fancy top
+alias 'top=top -ocpu -R -F -s 2 -n30' # fancy top
 alias 'rm=rm -i' # make rm command (potentially) less destructive
+alias 'rmd=rm -df' # remove directorys
 
 # Force tmux to use 256 colors
 alias tmux='TERM=screen-256color-bce tmux'
 
-# fakecall.net
-#alias fakecall='curl --request POST --user "7852368181:ghoti" http://api.fakecall.net/v1/account/7852368181/call'
-
 # alias to cat this file to display
-alias acat='< ~/.zsh/aliases.zsh'
-alias fcat='< ~/.zsh/functions.zsh'
 alias sz='source ~/.zshrc'
-
-
-# -------------------------------------------------------------------
-# some Octopress helpers
-# -------------------------------------------------------------------
-alias 'generate=time rake generate'
-alias 'gen=time rake generate'
-alias 'ingen=time rake integrate ; rake generate ;'
-alias 'deploy=rm deploy.log ; rake deploy > deploy.log ; tail -n 3 deploy.log ;'
-alias 'np=newpost.rb'
-
-# copy .htaccess files for zanshin.net and its image sub-directory
-alias 'htaccess=scp /Users/mark/Projects/octopress/zanshin/source/htaccess/.htaccess markn@markn.webfactional.com:~/webapps/zanshin ; scp /Users/mark/Projects/octopress/zanshin/source/images/.htaccess markn@markn.webfactional.com:~/webapps/zanshin/images ;'
-
-# deploy zanshin.net and move its .htaccess files
-alias 'dz=deploy ; htaccess ;'
-
-# -------------------------------------------------------------------
-# Source: http://aur.archlinux.org/packages/lolbash/lolbash/lolbash.sh
-# -------------------------------------------------------------------
-alias wtf='dmesg'
-alias onoz='cat /var/log/errors.log'
-alias rtfm='man'
-alias visible='echo'
-alias invisible='cat'
-alias moar='more'
-alias icanhas='mkdir'
-alias donotwant='rm'
-alias dowant='cp'
-alias gtfo='mv'
-alias hai='cd'
-alias plz='pwd'
-alias inur='locate'
-alias nomz='ps aux | less'
-alias nomnom='killall'
-alias cya='reboot'
-alias kthxbai='halt'
