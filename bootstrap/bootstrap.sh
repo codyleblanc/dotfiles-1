@@ -4,6 +4,7 @@
 # =========
 export DOTDIR="${HOME}/Development/Dotfiles"
 REPO="https://github.com/codyleblanc/dots.git"
+BACKUP_DIR="$HOME/backups_$(date +%s)"
 
 # Utility Functions
 # =================
