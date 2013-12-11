@@ -8,11 +8,19 @@ REPO="https://github.com/codyleblanc/dots.git"
 # Utility Functions
 # =================
 function link_file {
+    local source
+    local lnk
+
     source=$1
-    # strip the .symlink and everything after
-    lnk=`basename $source | sed 's/\symlink_//g'`
-    # prepend a "."
-    lnk="$HOME/.$lnk"
+
+    if [ "$2" ]; then
+        lnk="${2}"
+    else
+        # strip the .symlink and everything after
+        lnk=`basename $source | sed 's/\symlink_//g'`
+        # prepend a "."
+        lnk="$HOME/.$lnk"
+    fi
 
     if [ -h $lnk ]; then
         old_source=`readlink $lnk`
@@ -50,10 +58,19 @@ fi
 
 # Symlink them
 # ============
-link_file $DOTDIR/zsh/zshrc                 # ZSH
-link_file $DOTDIR/sourcecontrol/gitconfig   # GIT
-link_file $DOTDIR/sourcecontrol/git         # GITDIR
-link_file $DOTDIR/vimrc                     # VIM
+# ZSH
+link_file $DOTDIR/zsh/zshrc
+
+# GIT
+link_file $DOTDIR/sourcecontrol/gitconfig
+link_file $DOTDIR/sourcecontrol/git
+
+# VIM
+link_file $DOTDIR/vimrc
+
+# ITERM
+link_file $DOTDIR/terminal/iterm2.plist \
+          $HOME/Library/Preferences/com.googlecode.iterm2.plist
 
 # Git Setup
 # =========
