@@ -64,3 +64,4 @@ CVS
 zcompdump*
 .zsh-update
 .zsh_history
+*.zwc
