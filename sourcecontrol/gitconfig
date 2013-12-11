@@ -65,7 +65,7 @@
 
 [difftool "sourcetree"]
 	cmd = mvim -d \"$LOCAL\" \"$REMOTE\"
-	path =
+	path = 
 [mergetool "sourcetree"]
 	cmd = "v "
 	trustExitCode = true

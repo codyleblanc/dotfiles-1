@@ -27,14 +27,14 @@ call vundle#rc()
 
 " let Vundle manage Vundle
 Bundle 'gmarik/vundle'
-Bundle 'altercation/vim-colors-solarized'
+" Bundle 'altercation/vim-colors-solarized'
 " Bundle 'scrooloose/nerdtree'
-Bundle 'tpope/vim-fugitive'
-Bundle 'bling/vim-airline'
-Bundle 'benmills/vimux'
-Bundle 'git://git.wincent.com/command-t.git'
-Bundle 'plasticboy/vim-markdown'
-Bundle 'fholgado/minibufexpl.vim'
+" Bundle 'tpope/vim-fugitive'
+" Bundle 'bling/vim-airline'
+" Bundle 'benmills/vimux'
+" Bundle 'git://git.wincent.com/command-t.git'
+" Bundle 'plasticboy/vim-markdown'
+" Bundle 'fholgado/minibufexpl.vim'
 
 filetype plugin indent on    " enable plugins, detection and indenting
 syntax on
@@ -128,12 +128,12 @@ nnoremap <C-l> <C-w>l
 "     let nr = tabpagewinnr(i)
 "     let title = fnamemodify(bufname(list[nr - 1]), ':t')
 "     let title = empty(title) ? '[No name]' : title
-" 
+"
 "     let s .= i == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#'
 "     let s .= '%' . i . 'T[' . i . '] ' . title
 "     let s .= '  '
 "   endfor
-" 
+"
 "   let tabpaged_cwd = exists('t:cwd') ? '[' . t:cwd . ']' : ''
 "   if exists('*lingr#unread_count')
 "     let lingr_unread_count = lingr#unread_count()
@@ -150,13 +150,13 @@ nnoremap <C-l> <C-w>l
 "   let s .= '%#TabLineFill#%T%=%<' . tabpaged_cwd . lingr_unread
 "   return s
 " endfunction
-" 
+"
 " :hi TabLine      ctermfg=254 ctermbg=238 cterm=none
 " :hi TabLineSel   ctermfg=231 ctermbg=235 cterm=bold
 " :hi TabLineFill  ctermfg=254 ctermbg=238 cterm=none
 
 " -------------------------------------------------------------------
-" Move line(s) up or down via C-j and C-k respectively 
+" Move line(s) up or down via C-j and C-k respectively
 " -------------------------------------------------------------------
 " Normal mode
 nnoremap <C-j> :m .+1<CR>==
@@ -370,10 +370,10 @@ nmap <leader>vz :call VimuxRunCommand("dz")<CR>
 nmap <leader>vd :call VimuxRunCommand("deploy")<CR>
 
 " MiniBufExpl setup
-let g:miniBufExplMapWindowNavVim = 1 
-let g:miniBufExplMapWindowNavArrows = 1 
-let g:miniBufExplMapCTabSwitchBufs = 1 
-let g:miniBufExplModSelTarget = 1 
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplMapCTabSwitchBufs = 1
+let g:miniBufExplModSelTarget = 1
 
 " MiniBufExpl Colors
 hi MBENormal               ctermfg=244 ctermbg=235

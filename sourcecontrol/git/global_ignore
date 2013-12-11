@@ -58,3 +58,9 @@ CVS
 *.log
 *.sql
 *.sqlite
+
+# ZSH Generated #
+#################
+zcompdump*
+.zsh-update
+.zsh_history

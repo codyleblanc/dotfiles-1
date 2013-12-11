@@ -12,10 +12,6 @@ function box_name {
     [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
 }
 
-function vi_mode {
-  echo "${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
-}
-
 # http://blog.joshdick.net/2012/12/30/my_git_prompt_for_zsh.html
 # copied from https://gist.github.com/4415470
 # Adapted from code found at <https://gist.github.com/1712320>.
@@ -78,7 +74,6 @@ function parse_git_state() {
 
 }
 
-
 # If inside a Git repository, print its branch and state
 function git_prompt_string() {
   local git_where="$(parse_git_branch)"
@@ -87,29 +82,28 @@ function git_prompt_string() {
 
 # determine Ruby version whether using RVM or rbenv
 # the chpwd_functions line cause this to update only when the directory changes
-function _update_ruby_version() {
+function update_ruby_version() {
     typeset -g ruby_version=''
-    if which rvm-prompt &> /dev/null; then
-      # ruby_version="$(rvm-prompt i v g)"
-      ruby_version="$(rvm-prompt i v p g)"
-    else
-      if which rbenv &> /dev/null; then
-        ruby_version="$(rbenv version | sed -e "s/ (set.*$//")"
-      fi
+    if which rbenv &> /dev/null; then
+      ruby_version="$(rbenv version | sed -e "s/ (set.*$//")"
     fi
 }
 
-# list of functions to call for each directory change
-chpwd_functions+=(_update_ruby_version)
-
-function current_pwd {
-  echo $(pwd | sed -e "s,^$HOME,~,")
+function update_currentmark_dir {
+    typeset -g currentmark=''
+    currentmark=$(find "$MARKPATH" -lname $(pwd)  | sed 's_.*/__')
 }
 
+# list of functions to call for each directory change
+chpwd_functions+=(
+    update_ruby_version
+    update_currentmark_dir
+)
+
 PROMPT='
-${PR_GREEN}%n%{$reset_color%} %{$FG[239]%}at%{$reset_color%} ${PR_BOLD_BLUE}$(box_name)%{$reset_color%} %{$FG[239]%}in%{$reset_color%} ${PR_BOLD_YELLOW}$(current_pwd)%{$reset_color%} $(git_prompt_string)
+${PR_BOLD_YELLOW}%~%{$reset_color%} [${currentmark}] $(git_prompt_string)
 $(prompt_char) '
 
 export SPROMPT="Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color [(y)es (n)o (a)bort (e)dit]? "
 
-RPROMPT='$(vi_mode)${PR_GREEN}$(virtualenv_info)%{$reset_color%} ${PR_RED}${ruby_version}%{$reset_color%}'
+RPROMPT='${PR_GREEN}%{$reset_color%} ${PR_RED}${ruby_version}%{$reset_color%}'

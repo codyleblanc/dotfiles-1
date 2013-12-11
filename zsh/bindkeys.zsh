@@ -2,8 +2,14 @@
 # cat > /dev/null
 # And press it
 
-# bind k and j for VI mode
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-down
+bindkey -e
 
-bindkey -v   # Default to standard vi bindings, regardless of editor string
+bindkey '^K'   kill-whole-line                      # ctrl-k
+bindkey '^R'   history-incremental-search-backward  # ctrl-r
+bindkey '^A'   beginning-of-line                    # ctrl-a
+bindkey '^E'   end-of-line                          # ctrl-e
+bindkey '^D'   delete-char                          # ctrl-d
+bindkey '^F'   forward-char                         # ctrl-f
+bindkey '^B'   backward-char                        # ctrl-b
+bindkey '^[[A' history-substring-search-up          # up
+bindkey '^[[B' history-substring-search-down        # down

@@ -1,3 +1,9 @@
+# Add completion files to FPath
+fpath=(
+    $ZDOTS/completions/src
+    $fpath
+)
+
 autoload -U compinit && compinit
 zmodload -i zsh/complist
 
@@ -8,7 +14,7 @@ zstyle ':vcs_info:*' enable git #svn cvs
 
 # Enable completion caching, use rehash to clear
 zstyle ':completion::complete:*' use-cache on
-zstyle ':completion::complete:*' cache-path ${ZDOTDIR}/cache/$HOST
+zstyle ':completion::complete:*' cache-path $HOME/.zshcache/$HOST
 
 # Fallback to built in ls colors
 zstyle ':completion:*' list-colors ''
