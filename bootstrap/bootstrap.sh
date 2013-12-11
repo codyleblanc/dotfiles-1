@@ -3,7 +3,34 @@
 # Variables
 # =========
 export DOTDIR="${HOME}/Development/Dotfiles"
-local REPO="https://github.com/codyleblanc/dots.git"
+REPO="https://github.com/codyleblanc/dots.git"
+
+# Utility Functions
+# =================
+function link_file {
+    source=$1
+    # strip the .symlink and everything after
+    lnk=`basename $source | sed 's/\symlink_//g'`
+    # prepend a "."
+    lnk="$HOME/.$lnk"
+
+    if [ -h $lnk ]; then
+        old_source=`readlink $lnk`
+        if [ "$old_source" != "$source" ]; then
+            rm $lnk
+            echo "WARN: removed legacy symlink: $lnk -> $old_source"
+        fi
+    elif [ -f $lnk ] || [ -d $lnk ]; then
+        if [ ! -d $BACKUP_DIR ]; then
+            mkdir -p $BACKUP_DIR
+            echo "WARN: made backup directory $BACKUP_DIR"
+        fi
+        echo "WARN: moved old $lnk to $BACKUP_DIR"
+        mv $lnk $BACKUP_DIR/
+    fi
+
+    [ -h $lnk ] || ln -s $source $lnk && echo "Created $lnk -> $source"
+}
 
 # Directory setup
 # ===============
@@ -23,10 +50,10 @@ fi
 
 # Symlink them
 # ============
-ln -siv     $DOTDIR/zsh/zshrc               $HOME/.zshrc        # ZSH
-ln -siv     $DOTDIR/sourcecontrol/gitconfig $HOME/.gitconfig    # GIT
-ln -sFiv    $DOTDIR/sourcecontrol/git       $HOME/.git          # GITDIR
-#ln -siv     $DOTDIR/vimrc                   $HOME/.vimrc        # VIM
+link_file $DOTDIR/zsh/zshrc                 # ZSH
+link_file $DOTDIR/sourcecontrol/gitconfig   # GIT
+link_file $DOTDIR/sourcecontrol/git         # GITDIR
+link_file $DOTDIR/vimrc                     # VIM
 
 # Git Setup
 # =========
