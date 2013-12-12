@@ -10,4 +10,5 @@ Originally forked from https://github.com/zanshin/dotfiles because I like his ZS
 Installation
 ------------
 I do not take any responsibility for destroying your machine.
-bash -c "`curl -sL https://raw.github.com/codyleblanc/dots/master/bootstrap/bootstrap.sh`"
+
+    bash -c "`curl -sL https://raw.github.com/codyleblanc/dots/master/bootstrap/bootstrap.sh`"
