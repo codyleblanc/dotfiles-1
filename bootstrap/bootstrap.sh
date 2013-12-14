@@ -67,7 +67,7 @@ link_file $DOTDIR/sourcecontrol/gitconfig
 link_file $DOTDIR/sourcecontrol/git
 
 # VIM
-link_file $DOTDIR/vimrc
+# link_file $DOTDIR/vimrc
 
 # ITERM
 link_file $DOTDIR/terminal/iterm2.plist \
