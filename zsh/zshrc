@@ -1,5 +1,7 @@
 #! /bin/sh
-export ZDOTS=$HOME/Development/Dotfiles/zsh
+
+export DOTDIR=$HOME/Development/Dotfiles
+export ZDOTS=$DOTDIR/zsh
 
 source $ZDOTS/checks.zsh
 source $ZDOTS/colors.zsh

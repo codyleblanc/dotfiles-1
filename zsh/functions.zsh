@@ -151,6 +151,18 @@ if [[ $IS_MAC -eq 1 ]]; then
             [[ -d $(ls ~/mounts/$1) ]] || rm -rf ~/mounts/$1
         fi
     }
+
+    brw() {
+        if [[ -z "$1" ]]; then
+            echo "Usage: brw as you would brew" >&2 ; return 1
+        else
+            brew "$@"
+
+            if [ $? -eq 0 ]; then
+                brew list > $PACKAGELIST
+            fi
+        fi
+    }
 fi
 
 # -------------------------------------------------------------------
@@ -211,7 +223,8 @@ j() {
 }
 
 mark() {
-    mkdir -p "$MARKPATH"; ln -s "$(pwd)" "$MARKPATH/$1"
+    mkdir -p "$MARKPATH"
+    ln -s "$(pwd)" "$MARKPATH/$1"
 }
 
 unmark() {

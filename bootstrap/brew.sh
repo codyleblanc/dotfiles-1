@@ -1,8 +1,9 @@
 #!/bin/sh
 
+# Make sure brew is on the path
 export PATH=/usr/local/bin:$PATH
-export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
+# Install brew if needed
 which -s brew
 if [[ $? != 0 ]]; then
     echo 'Installing Homebrew...'
@@ -13,35 +14,16 @@ fi
 brew update
 brew upgrade
 
-brew install bash \
-             brew-cask \
-             coreutils \
-             ctags \
-             direnv \
-             findutils \
-             git \
-             git-extras \
-             go \
-             imagesnap \
-             node \
-             openssl \
-             python \
-             python3 \
-             rbenv \
-             readline \
-             reattach-to-user-namespace \
-             the_silver_searcher \
-             vim \
-             wget --enable-iri \
-             zsh \
-             z
+# Install all listed in the package list file
+cat $PACKAGELIST | while read package
+do
+    echo "\nINSTALLING PACKAGE: ${package}"
+    brew install $package
+done
 
+# Clean up the old packages
 brew cleanup
 
 # Reminders
 echo ""
 echo "Don’t forget to add $(brew --prefix coreutils)/libexec/gnubin to \$PATH."
-
-###############################################################################
-################################## FUNCTIONS ##################################
-###############################################################################

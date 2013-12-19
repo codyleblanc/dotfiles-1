@@ -25,5 +25,8 @@ export LC_ALL=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
 export LANG=en_US.UTF-8
 
+# Dotfile Specific Settings / Locations
+
 # Mark path
+export PACKAGELIST=$DOTDIR/bootstrap/brew_packages
 export MARKPATH=$HOME/.marks
