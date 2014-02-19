@@ -1,7 +1,10 @@
-export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+PATH=/usr/local/bin:$PATH               # Brew path
+PATH=/usr/local/sbin:$PATH              # Brew path
+PATH=/usr/local/share/npm/bin:$PATH     # Node path
 
 # remove duplicate entries
 typeset -U PATH
+export PATH
 
 # Setup terminal, and turn on colors
 export TERM=xterm-256color
@@ -25,7 +28,8 @@ export LC_ALL=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-# Dotfile Specific Settings / Locations
+# MVim needs to know where macvim is
+export VIM_APP_DIR=/usr/local/Cellar/macvim/HEAD
 
 # Mark path
 export PACKAGELIST=$DOTDIR/bootstrap/brew_packages

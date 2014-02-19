@@ -21,6 +21,10 @@ do
     brew install $package
 done
 
+# Install required vim!
+brew install macvim --with-cscope --with-lua --HEAD
+brew install vim --with-lua
+
 # Clean up the old packages
 brew cleanup
 

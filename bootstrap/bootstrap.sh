@@ -67,7 +67,8 @@ link_file $DOTDIR/sourcecontrol/gitconfig
 link_file $DOTDIR/sourcecontrol/git
 
 # VIM
-# link_file $DOTDIR/vimrc
+link_file $DOTDIR/vim/vimrc \
+          $HOME/.vim/vimrc
 
 # ITERM
 link_file $DOTDIR/terminal/iterm2.plist \
@@ -103,4 +104,12 @@ ZSH="$( which zsh )"
 if [ -n "$ZSH" ]; then
     echo "Changing shell to $ZSH"
     chsh -s $ZSH
+fi
+
+# Vim setup
+# =========
+echo "Setting up Neobundle if needed"
+mkdir -p ~/.vim/bundle
+if [ ! -d "~/.vim/bundle/neobundle.vim" ]; then
+    git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
 fi

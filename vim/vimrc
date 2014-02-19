@@ -1,0 +1,292 @@
+" vim: fdm=marker ts=2 sts=2 sw=2 fdl=0
+
+" prerequisites {{{
+  if !has('lua')
+    abort
+  endif
+"}}}
+
+" detect OS {{{
+  let s:is_windows = has('win32') || has('win64')
+  let s:is_cygwin = has('win32unix')
+  let s:is_macvim = has('gui_macvim')
+"}}}
+
+" setup & neobundle {{{
+  set nocompatible
+  set all& "reset everything to their defaults
+  set rtp+=~/.vim/bundle/neobundle.vim
+  call neobundle#rc(expand('~/.vim/bundle/'))
+  NeoBundleFetch 'Shougo/neobundle.vim'
+"}}}
+
+" functions {{{
+
+  function! Preserve(command) "{{{
+    " preparation: save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " do the business:
+    execute a:command
+    " clean up: restore previous search history, and cursor position
+    let @/=_s
+    call cursor(l, c)
+  endfunction "}}}
+
+  function! StripTrailingWhitespace() "{{{
+    call Preserve("%s/\\s\\+$//e")
+  endfunction "}}}
+
+  function! EnsureExists(path) "{{{
+    if !isdirectory(expand(a:path))
+      call mkdir(expand(a:path))
+    endif
+  endfunction "}}}
+
+  function! CloseWindowOrKillBuffer() "{{{
+    let number_of_windows_to_this_buffer = len(filter(range(1, winnr('$')), "winbufnr(v:val) == bufnr('%')"))
+
+    " never bdelete a nerd tree
+    if matchstr(expand("%"), 'NERD') == 'NERD'
+      wincmd c
+      return
+    endif
+
+    if number_of_windows_to_this_buffer > 1
+      wincmd c
+    else
+      bdelete
+    endif
+  endfunction "}}}
+
+  function! NeatFoldText() "{{{
+    let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+    let lines_count = v:foldend - v:foldstart + 1
+    let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
+    let foldchar = matchstr(&fillchars, 'fold:\zs.')
+    let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+    let foldtextend = lines_count_text . repeat(foldchar, 8)
+    let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
+    return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+  endfunction
+  "}}}
+"}}}
+
+" base configuration {{{
+  set timeoutlen=300                                  "mapping timeout
+  set ttimeoutlen=50                                  "keycode timeout
+  filetype off
+  filetype plugin indent on
+
+  set mouse=a                                         "enable mouse
+  set mousehide                                       "hide when characters are typed
+  set history=1000                                    "number of command lines to remember
+  set ttyfast                                         "assume fast terminal connection
+  set viewoptions=folds,options,cursor,unix,slash     "unix/windows compatibility
+  set encoding=utf-8                                  "set encoding for text
+  if exists('$TMUX')
+    set clipboard=
+  else
+    set clipboard=unnamed                             "sync with OS clipboard
+  endif
+  set hidden                                          "allow buffer switching without saving
+  set autoread                                        "auto reload if file saved externally
+  set fileformats+=mac                                "add mac to auto-detection of file format line endings
+  set nrformats-=octal                                "always assume decimal numbers
+  set showcmd                                         "show partial commands
+  set tags=tags;/
+  set showfulltag
+  set modeline
+  set modelines=5
+
+  " whitespace
+  set backspace=indent,eol,start                      "allow backspacing everything in insert mode
+  set autoindent                                      "automatically indent to match adjacent lines
+  set expandtab                                       "spaces instead of tabs
+  set smarttab                                        "use shiftwidth to enter tabs
+  let &tabstop=4                                      "number of spaces per tab for display
+  let &softtabstop=4                                  "number of spaces per tab in insert mode
+  let &shiftwidth=4                                   "number of spaces when indenting
+  set list                                            "highlight trailing whitespace
+  set listchars=tab:│\ ,trail:•,extends:❯,precedes:❮  "trailing whitespace characters
+  set shiftround                                      "use shiftwidth for > and < shifting
+  set linebreak
+  let &showbreak='↪ '
+
+  set scrolloff=1                                     "always show content after scroll
+  set scrolljump=5                                    "minimum number of lines to scroll
+  set display+=lastline
+  set wildmenu                                        "show list for autocomplete
+  set wildmode=longest:full,full
+  set wildignorecase
+  set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.idea/*,*/.DS_Store
+
+  set splitbelow
+  set splitright
+
+  " disable sounds
+  set noerrorbells
+  set novisualbell
+  set t_vb=
+
+  " searching
+  set hlsearch                                        "highlight searches
+  set incsearch                                       "incremental searching
+  set ignorecase                                      "ignore case for searching
+  set smartcase                                       "do case-sensitive if there's a capital letter
+
+  set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
+  set grepformat=%f:%l:%c:%m
+
+  " vim file/folder management {{{
+    " persistent undo
+    if exists('+undofile')
+      set undofile
+      set undodir=~/.vim/.cache/undo
+    endif
+
+    " backups
+    set backup
+    set backupdir=~/.vim/.cache/backup
+
+    " swap files
+    set directory=~/.vim/.cache/swap
+    set noswapfile
+
+    call EnsureExists('~/.vim/.cache')
+    call EnsureExists(&undodir)
+    call EnsureExists(&backupdir)
+    call EnsureExists(&directory)
+  "}}}
+
+  let mapleader = ","
+  let g:mapleader = ","
+"}}}
+
+" ui configuration {{{
+  set showmatch                                       "automatically highlight matching braces/brackets/etc.
+  set matchtime=2                                     "tens of a second to show matching parentheses
+  set number
+  set lazyredraw
+  set laststatus=2
+  set noshowmode
+  set foldenable                                      "enable folds by default
+  set foldmethod=syntax                               "fold via syntax of files
+  set foldlevelstart=99                               "open all folds by default
+  set foldtext=NeatFoldText()                         "prettier fold text
+  let g:xml_syntax_folding=1                          "enable xml folding
+
+  set cursorline
+  autocmd WinLeave * setlocal nocursorline
+  autocmd WinEnter * setlocal cursorline
+  let &colorcolumn=120
+
+  if has('conceal')
+    set conceallevel=1
+    set listchars+=conceal:Δ
+  endif
+
+  if has('gui_running')
+    " open maximized
+    set lines=999 columns=9999
+
+    set guioptions+=t                                 "tear off menu items
+    set guioptions-=T                                 "toolbar icons
+
+    if s:is_macvim
+      set gfn=Ubuntu_Mono:h13
+    endif
+  else
+    if $COLORTERM == 'gnome-terminal'
+      set t_Co=256 "why you no tell me correct colors?!?!
+    endif
+    if $TERM_PROGRAM == 'iTerm.app'
+      " different cursors for insert vs normal mode
+      if exists('$TMUX')
+        let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+        let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+      else
+        let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+        let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+      endif
+    endif
+  endif
+"}}}
+
+" plugin/mapping configuration {{{
+  NeoBundle 'chriskempson/vim-tomorrow-theme' "{{{
+    set background=dark                                 "use dark scheme when possible
+    colorscheme Tomorrow-Night                          "use tomorrow night if possible
+  "}}}
+  NeoBundle 'matchit.zip'
+  NeoBundle 'bling/vim-airline' "{{{
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline_left_sep=' '
+    let g:airline_right_sep=' '
+    "let g:airline#extensions#tabline#left_sep=' '
+    "let g:airline#extensions#tabline#left_alt_sep='¦'
+  "}}}
+  NeoBundle 'tpope/vim-surround'
+  NeoBundle 'tpope/vim-repeat'
+  NeoBundle 'tpope/vim-eunuch'
+  NeoBundle 'tpope/vim-unimpaired' "{{{
+    nmap <c-up> [e
+    nmap <c-down> ]e
+    vmap <c-up> [egv
+    vmap <c-down> ]egv
+  "}}}
+  NeoBundle 'Shougo/vimproc.vim', {
+    \ 'build': {
+      \ 'mac': 'make -f make_mac.mak',
+      \ 'unix': 'make -f make_unix.mak',
+    \ },
+  \ }
+  NeoBundleLazy 'Shougo/neocomplete.vim', {'autoload':{'insert':1}} "{{{
+    let g:neocomplete#enable_at_startup=1
+    let g:neocomplete#data_directory='~/.vim/.cache/neocomplete'
+  "}}}
+  NeoBundle 'mhinz/vim-startify' "{{{
+    let g:startify_session_dir = '~/.vim/.cache/sessions'
+    let g:startify_change_to_vcs_root = 1
+    let g:startify_show_sessions = 1
+    nnoremap <F12> :Startify<cr>
+  "}}}
+  NeoBundle 'nathanaelkane/vim-indent-guides' "{{{
+    let g:indent_guides_start_level=1
+    let g:indent_guides_guide_size=1
+    let g:indent_guides_enable_on_vim_startup=0
+    let g:indent_guides_color_change_percent=3
+    if !has('gui_running')
+      let g:indent_guides_auto_colors=0
+      function! s:indent_set_console_colors()
+        hi IndentGuidesOdd ctermbg=235
+        hi IndentGuidesEven ctermbg=236
+      endfunction
+      autocmd VimEnter,Colorscheme * call s:indent_set_console_colors()
+    endif
+  "}}}
+  NeoBundleLazy 'scrooloose/nerdtree', {'autoload':{'commands':['NERDTreeToggle','NERDTreeFind']}} "{{{
+      let NERDTreeShowHidden=1
+      let NERDTreeQuitOnOpen=0
+      let NERDTreeShowLineNumbers=1
+      let NERDTreeChDirMode=0
+      let NERDTreeShowBookmarks=1
+      let NERDTreeIgnore=['\.git','\.hg']
+      let NERDTreeBookmarksFile='~/.vim/.cache/NERDTreeBookmarks'
+      nnoremap <F1> :NERDTreeFind<CR>
+      nnoremap <F2> :NERDTreeToggle<CR>
+    "}}}
+    NeoBundleLazy 'majutsushi/tagbar', {'autoload':{'commands':'TagbarToggle'}} "{{{
+      nnoremap <silent> <F3> :TagbarToggle<CR>
+    "}}}
+  NeoBundleCheck
+
+"}}}
+
+" augroups {{{
+  augroup reload_vimrc "{{{
+      autocmd!
+      autocmd BufWritePost $MYVIMRC source $MYVIMRC
+  augroup END "}}}
+"}}}
