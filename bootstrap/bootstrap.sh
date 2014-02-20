@@ -2,7 +2,7 @@
 
 # Variables
 # =========
-export DOTDIR="${HOME}/Development/Dotfiles"
+export DOTDIR="${HOME}/Developer/Dotfiles"
 REPO="https://github.com/codyleblanc/dots.git"
 BACKUP_DIR="$HOME/backups_$(date +%s)"
 
