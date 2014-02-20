@@ -2,6 +2,7 @@
 
 # Make sure brew is on the path
 export PATH=/usr/local/bin:$PATH
+export PACKAGELIST=$DOTDIR/bootstrap/brew_packages
 
 # Install brew if needed
 which -s brew

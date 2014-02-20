@@ -32,5 +32,4 @@ export LANG=en_US.UTF-8
 export VIM_APP_DIR=/usr/local/Cellar/macvim/HEAD
 
 # Mark path
-export PACKAGELIST=$DOTDIR/bootstrap/brew_packages
 export MARKPATH=$HOME/.marks

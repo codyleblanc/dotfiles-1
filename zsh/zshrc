@@ -1,6 +1,6 @@
 #! /bin/sh
 
-export DOTDIR=$HOME/Development/Dotfiles
+export DOTDIR=$HOME/Developer/Dotfiles
 export ZDOTS=$DOTDIR/zsh
 
 source $ZDOTS/checks.zsh
