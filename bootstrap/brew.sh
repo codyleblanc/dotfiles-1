@@ -7,7 +7,7 @@ export PATH=/usr/local/bin:$PATH
 which -s brew
 if [[ $? != 0 ]]; then
     echo 'Installing Homebrew...'
-    ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
+    ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 fi
 
 # Update brew and upgrade already install packages
