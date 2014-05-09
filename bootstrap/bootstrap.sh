@@ -67,12 +67,15 @@ link_file $DOTDIR/sourcecontrol/gitconfig
 link_file $DOTDIR/sourcecontrol/git
 
 # VIM
-link_file $DOTDIR/vim/vimrc \
-          $HOME/.vim/vimrc
+link_file $DOTDIR/vim
 
 # ITERM
 link_file $DOTDIR/terminal/iterm2.plist \
           $HOME/Library/Preferences/com.googlecode.iterm2.plist
+
+# XCODE -- Uncrustify
+link_file $DOTDIR/xcode/uncrustify.cfg \
+          $HOME/.uncrustify/uncrustify.cfg
 
 # Git Setup
 # =========

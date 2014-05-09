@@ -10,10 +10,12 @@ source $ZDOTS/exports.zsh
 source $ZDOTS/prompt.zsh
 source $ZDOTS/completion.zsh
 source $ZDOTS/aliases.zsh
-source $ZDOTS/bindkeys.zsh
 source $ZDOTS/functions.zsh
 source $ZDOTS/history.zsh
+source $ZDOTS/bindkeys.zsh
 source $ZDOTS/zsh_hooks.zsh
 
+# Source the modules
 source $ZDOTS/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $ZDOTS/modules/zsh-history-substring-search/zsh-history-substring-search.zsh
+

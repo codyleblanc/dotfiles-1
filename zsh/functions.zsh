@@ -239,3 +239,7 @@ marks() {
         printf "-> %s \t\n" $markpath
     done
 }
+
+insert_sudo () {
+    zle beginning-of-line; zle -U "sudo "
+}

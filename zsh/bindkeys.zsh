@@ -13,3 +13,6 @@ bindkey '^F'   forward-char                         # ctrl-f
 bindkey '^B'   backward-char                        # ctrl-b
 bindkey '^[[A' history-substring-search-up          # up
 bindkey '^[[B' history-substring-search-down        # down
+zle -N insert-sudo insert_sudo
+bindkey "^X" insert-sudo
+

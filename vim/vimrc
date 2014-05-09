@@ -71,12 +71,28 @@
     return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
   endfunction
   "}}}
+
+  " Go Functions {{{
+    function! s:GoVet()
+        cexpr system("go vet " . shellescape(expand('%')))
+        copen
+    endfunction
+    command! GoVet :call s:GoVet()
+
+    function! s:GoLint()
+        cexpr system("golint " . shellescape(expand('%')))
+        copen
+    endfunction
+    command! GoLint :call s:GoLint()
+  "}}}
 "}}}
 
 " base configuration {{{
   set timeoutlen=300                                  "mapping timeout
   set ttimeoutlen=50                                  "keycode timeout
+
   filetype off
+  filetype plugin indent off
   filetype plugin indent on
 
   set mouse=a                                         "enable mouse
@@ -218,6 +234,7 @@
   NeoBundle 'chriskempson/vim-tomorrow-theme' "{{{
     set background=dark                                 "use dark scheme when possible
     colorscheme Tomorrow-Night                          "use tomorrow night if possible
+    syntax on
   "}}}
   NeoBundle 'matchit.zip'
   NeoBundle 'bling/vim-airline' "{{{
@@ -279,6 +296,14 @@
     "}}}
     NeoBundleLazy 'majutsushi/tagbar', {'autoload':{'commands':'TagbarToggle'}} "{{{
       nnoremap <silent> <F3> :TagbarToggle<CR>
+    "}}}
+    NeoBundleLazy 'Blackrush/vim-gocode', {'autoload': {'filetypes':['go']}} "{{{
+      let gofmt_command = "goimports"
+      au FileType go autocmd BufWritePre <buffer> Fmt
+      au FileType go setlocal noet ts=4 sw=4 sts=4
+    "}}}
+    NeoBundleLazy 'scrooloose/syntastic', {'autoload': {'filetypes':['go']}} "{{{
+      let g:syntastic_go_checkers = ['go', 'golint', 'govet']
     "}}}
   NeoBundleCheck
 
